@@ -6,8 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Manager\" />
     <Folder Include="Interface\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BookStoreModel\BookStoreModel.csproj" />
+    <ProjectReference Include="..\BookStoreRepository\BookStoreRepository.csproj" />
   </ItemGroup>
 
 </Project>
