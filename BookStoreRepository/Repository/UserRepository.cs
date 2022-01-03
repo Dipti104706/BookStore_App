@@ -191,7 +191,7 @@ namespace BookStoreRepository.Repository
             Message message = new Message();
             var formatter = new BinaryMessageFormatter();
             message.Formatter = formatter;
-            message.Body = "This msg for reset ps";
+            message.Body = "This mail is to reset password";
             msgQueue.Label = "MailBody";
             msgQueue.Send(message);
         }
