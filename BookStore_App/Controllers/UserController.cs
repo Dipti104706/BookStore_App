@@ -88,6 +88,30 @@ namespace BookStore_App.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("reset")]
+        public IActionResult ResetPassword([FromBody] ResetPasswordModel reset)
+        {
+            try
+            {
+                string result = this.manager.ResetPassword(reset);
+                //this.logger.LogInformation(reset.Email + "is trying to reset password");
+                if (result.Equals("Password Updated Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
         [HttpPost]
         [Route("forgot")]
         public IActionResult ForgotPassword(string email)

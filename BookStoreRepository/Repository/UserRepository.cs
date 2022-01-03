@@ -24,6 +24,8 @@ namespace BookStoreRepository.Repository
             this.Configuration = configuration;
         }
         SqlConnection sqlConnection;
+
+        //Register method 
         public string Register(RegisterModel user)
         {
             sqlConnection = new SqlConnection(this.Configuration.GetConnectionString("BookStoreDB"));
@@ -116,25 +118,39 @@ namespace BookStoreRepository.Repository
             }
         }
 
-
-        public string JWTTokenGeneration(string email)
+        //Reset password
+        public string ResetPassword(ResetPasswordModel reset)
         {
-            byte[] key = Encoding.UTF8.GetBytes(this.Configuration["SecretKey"]);
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key); ////create new instance
-            SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor ////placeholders to store all atrribute to generate token
+            sqlConnection = new SqlConnection(this.Configuration.GetConnectionString("BookStoreDB"));
+            try
             {
-                Subject = new ClaimsIdentity(new[]
+
+                using (sqlConnection)
                 {
-                new Claim(ClaimTypes.Name, email)
-            }),
-                Expires = DateTime.UtcNow.AddMinutes(30),
-                SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
-            };
-            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
-            JwtSecurityToken token = handler.CreateJwtSecurityToken(descriptor);
-            return handler.WriteToken(token);
+                    string storeprocedure = "spResetPS";
+                    SqlCommand sqlCommand = new SqlCommand(storeprocedure, sqlConnection);
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@Email", reset.Email);
+                    sqlCommand.Parameters.AddWithValue("@NewPs", EncryptPassword(reset.NewPassword));
+                    sqlConnection.Open();
+                    int result = Convert.ToInt32(sqlCommand.ExecuteScalar());
+                    if (result == 1)
+                    {
+                        return "Reset Password Unsuccessful";
+                    }
+                    else
+                    {
+                        return "Password Updated Successfully";
+                    }
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
+        //Forget password
         public string ForgotPassword(string email)
         {
             sqlConnection = new SqlConnection(this.Configuration.GetConnectionString("BookStoreDB"));
@@ -169,6 +185,26 @@ namespace BookStoreRepository.Repository
             }
         }
 
+        //Token generation
+        public string JWTTokenGeneration(string email)
+        {
+            byte[] key = Encoding.UTF8.GetBytes(this.Configuration["SecretKey"]);
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key); ////create new instance
+            SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor ////placeholders to store all atrribute to generate token
+            {
+                Subject = new ClaimsIdentity(new[]
+                {
+                new Claim(ClaimTypes.Name, email)
+            }),
+                Expires = DateTime.UtcNow.AddMinutes(30),
+                SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
+            };
+            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+            JwtSecurityToken token = handler.CreateJwtSecurityToken(descriptor);
+            return handler.WriteToken(token);
+        }
+
+        //Smtp
         public void SMTPmail(string email)
         {
             MailMessage mailId = new MailMessage();
