@@ -10,5 +10,6 @@ namespace BookStoreRepository.Interface
         string Register(RegisterModel user);
         string Login(LoginModel login);
         string JWTTokenGeneration(string email);
+        string ForgotPassword(string email);
     }
 }

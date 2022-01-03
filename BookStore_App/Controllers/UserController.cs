@@ -65,11 +65,13 @@ namespace BookStore_App.Controllers
                     IDatabase database = connectionMultiplexer.GetDatabase();
                     string Name = database.StringGet("Name");
                     int userId = Convert.ToInt32(database.StringGet("User Id"));
+                    long Number = Convert.ToInt64(database.StringGet("Number"));
                     RegisterModel data = new RegisterModel
                     {
                         Name = Name,
                         Email = login.Email,
-                        UserId = userId
+                        UserId = userId,
+                        Phone = Number
                     };
                     string token = this.manager.JWTTokenGeneration(login.Email);
                     return this.Ok(new { Status = true, Message = result, Data = data, Token = token });
@@ -86,5 +88,28 @@ namespace BookStore_App.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("forgot")]
+        public IActionResult ForgotPassword(string email)
+        {
+            try
+            {
+                string result = this.manager.ForgotPassword(email);
+                //this.logger.LogInformation(email + "trying to access forgot password");
+                if (result.Equals("Email sent to user"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
