@@ -41,8 +41,15 @@ namespace BookStoreRepository.Repository
                     sqlCommand.Parameters.AddWithValue("@Password", user.Password);
                     sqlCommand.Parameters.AddWithValue("@Phone", user.Phone);
                     sqlConnection.Open();
-                    sqlCommand.ExecuteNonQuery();
-                    return "Registration Successful";
+                    int result = Convert.ToInt32(sqlCommand.ExecuteScalar());
+                    if (result == 1)
+                    {
+                        return "Email already exists";
+                    }
+                    else
+                    {
+                        return "Registration Successful";
+                    }                   
                 }
             }
             catch (Exception e)
