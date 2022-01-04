@@ -36,5 +36,17 @@ namespace BookStoreManager.Manager
                 throw new Exception(e.Message);
             }
         }
+
+        public string UpdateBookDetails(BookModel update)
+        {
+            try
+            {
+                return this.bookRepository.UpdateBookDetails(update);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

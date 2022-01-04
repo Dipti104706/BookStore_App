@@ -42,5 +42,29 @@ namespace BookStore_App.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpPut]
+        [Route("updateBook")]
+        public IActionResult UpdateBookDetails([FromBody] BookModel update)
+        {
+            try
+            {
+                string result = this.bookManager.UpdateBookDetails(update);
+                //this.logger.LogInformation(reset.Email + "is trying to reset password");
+                if (result.Equals("Details Updated Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

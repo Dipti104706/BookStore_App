@@ -8,5 +8,7 @@ namespace BookStoreRepository.Interface
         IConfiguration Configuration { get; }
 
         string AddBook(BookModel book);
+        string UpdateBookDetails(BookModel update);
+
     }
 }
