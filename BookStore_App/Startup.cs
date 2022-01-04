@@ -34,7 +34,8 @@ namespace BookStore_App
             services.AddMvc();
             services.AddTransient<IUserRepository, UserRepository>(); ////for Di
             services.AddTransient<IUserManager, UserManager>();
-
+            services.AddTransient<IBookRepository, BookRepository>();
+            services.AddTransient<IBookManager, BookManager>();
             ////Adding cors
             services.AddCors(options =>
                 options.AddPolicy(
