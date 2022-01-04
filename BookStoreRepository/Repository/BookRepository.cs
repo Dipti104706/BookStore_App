@@ -145,5 +145,40 @@ namespace BookStoreRepository.Repository
                 sqlConnection.Close();
             }
         }
+
+        //delete book api
+        public string DeleteBook(int bookId)
+        {
+            sqlConnection = new SqlConnection(this.Configuration.GetConnectionString("BookStoreDB"));
+            try
+            {
+
+                using (sqlConnection)
+                {
+                    string storeprocedure = "spDeleteBookDetails";
+                    SqlCommand sqlCommand = new SqlCommand(storeprocedure, sqlConnection);
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@BookId", bookId);
+                    sqlConnection.Open();
+                    int result = Convert.ToInt32(sqlCommand.ExecuteScalar());
+                    if (result == 1)
+                    {
+                        return "Bookid does not exists";
+                    }
+                    else
+                    {
+                        return "Book details deleted successfully";
+                    }
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
     }
 }

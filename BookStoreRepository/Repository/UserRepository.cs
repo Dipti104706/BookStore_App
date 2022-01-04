@@ -148,6 +148,10 @@ namespace BookStoreRepository.Repository
             {
                 throw new Exception(ex.Message);
             }
+            finally
+            {
+                sqlConnection.Close();
+            }
         }
 
         //Forget password

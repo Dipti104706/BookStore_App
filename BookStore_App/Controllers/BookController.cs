@@ -91,6 +91,29 @@ namespace BookStore_App.Controllers
             }
         }
 
-
+        //Delete book 
+        [HttpDelete]
+        [Route("deleteBook")]
+        public IActionResult DeleteBook(int bookId)
+        {
+            try
+            {
+                string result = this.bookManager.DeleteBook(bookId);
+                //this.logger.LogInformation(reset.Email + "is trying to reset password");
+                if (result.Equals("Book details deleted successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

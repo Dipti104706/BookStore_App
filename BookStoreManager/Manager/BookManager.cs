@@ -60,5 +60,17 @@ namespace BookStoreManager.Manager
                 throw new Exception(e.Message);
             }
         }
+
+        public string DeleteBook(int bookId)
+        {
+            try
+            {
+                return this.bookRepository.DeleteBook(bookId);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
