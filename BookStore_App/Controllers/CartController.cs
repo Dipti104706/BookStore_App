@@ -43,6 +43,28 @@ namespace BookStore_App.Controllers
             }
         }
 
-       
+        [HttpPut]
+        [Route("updateBookQuantity")]
+        public IActionResult UpdateCartQuantity(int cartId, int quantity)
+        {
+            try
+            {
+                string result = this.cartManager.UpdateCartQuantity(cartId, quantity);
+                //this.logger.LogInformation(reset.Email + "is trying to reset password");
+                if (result.Equals("Quantity Updated Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
