@@ -91,7 +91,7 @@ namespace BookStore_App.Controllers
             }
         }
 
-
+        //Delete cart details api
         [HttpDelete]
         [Route("deleteBook")]
         public IActionResult DeleteCart(int cartId)
