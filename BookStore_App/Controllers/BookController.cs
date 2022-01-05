@@ -115,5 +115,30 @@ namespace BookStore_App.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        //Get all books
+        [HttpGet]
+        [Route("getAllBooks")]
+        public IActionResult GetAllBooks()
+        {
+            try
+            {
+                var result = this.bookManager.GetAllBooks();
+                //this.logger.LogInformation(reset.Email + "is trying to reset password");
+                if (result != null)
+                {
+                    return this.Ok(new ResponseModel<object>() { Status = true, Message = "Retrieval all book details succssful", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "No book exists" });
+                }
+            }
+            catch (Exception ex)
+            {
+                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

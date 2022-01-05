@@ -1,5 +1,6 @@
 ﻿using BookStoreModel;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace BookStoreRepository.Interface
 {
@@ -11,6 +12,7 @@ namespace BookStoreRepository.Interface
         string UpdateBookDetails(BookModel update);
         object RetrieveBookDetails(int bookId);
         string DeleteBook(int bookId);
+        List<BookModel> GetAllBooks();
 
     }
 }

@@ -180,5 +180,55 @@ namespace BookStoreRepository.Repository
                 sqlConnection.Close();
             }
         }
+
+        //Get all books api
+        public List<BookModel> GetAllBooks()
+        {
+            sqlConnection = new SqlConnection(this.Configuration.GetConnectionString("BookStoreDB"));           
+            try
+            {
+                using (sqlConnection)
+                {
+                    string storeprocedure = "spGetAllBook";
+                    SqlCommand sqlCommand = new SqlCommand(storeprocedure, sqlConnection);
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlConnection.Open();
+                    SqlDataReader sqlData = sqlCommand.ExecuteReader();
+                    if (sqlData.HasRows)
+                    {
+                        List<BookModel> allBook = new List<BookModel>();                       
+                        while (sqlData.Read())
+                        {
+                            BookModel bookModel = new BookModel();
+                            bookModel.BookId = Convert.ToInt32(sqlData["BookId"]);
+                            bookModel.BookName = sqlData["BookName"].ToString();
+                            bookModel.AuthorName = sqlData["AuthorName"].ToString();
+                            bookModel.DiscountPrice = Convert.ToInt32(sqlData["DiscountPrice"]);
+                            bookModel.OriginalPrice = Convert.ToInt32(sqlData["OriginalPrice"]);
+                            bookModel.BookDescription = sqlData["BookDescription"].ToString();
+                            bookModel.Rating = Convert.ToInt32(sqlData["Rating"]);
+                            bookModel.Reviewer = Convert.ToInt32(sqlData["Reviewer"]);
+                            bookModel.Image = sqlData["Image"].ToString();
+                            bookModel.BookCount = Convert.ToInt32(sqlData["BookCount"]);
+                            allBook.Add(bookModel);
+                        }
+                        return allBook;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
     }
 }

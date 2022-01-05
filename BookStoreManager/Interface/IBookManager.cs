@@ -1,4 +1,5 @@
 ﻿using BookStoreModel;
+using System.Collections.Generic;
 
 namespace BookStoreManager.Interface
 {
@@ -8,5 +9,6 @@ namespace BookStoreManager.Interface
         string UpdateBookDetails(BookModel update);
         object RetrieveBookDetails(int bookId);
         string DeleteBook(int bookId);
+        List<BookModel> GetAllBooks();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BookStoreManager.Interface;
 using BookStoreModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StackExchange.Redis;
 using System;
@@ -36,7 +37,8 @@ namespace BookStore_App.Controllers
                 //this.logger.LogInformation("New user added successfully with userid " + userData.UserId + " & firstname:" + userData.FirstName);
                 if (result.Equals("Registration Successful"))
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                   
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result});
                 }
                 else
                 {
@@ -60,7 +62,6 @@ namespace BookStore_App.Controllers
                 //this.logger.LogInformation(login.Email + "Trying to log in");
                 if (result.Equals("Login Successful"))
                 {
-                    //HttpContext.Session.SetString("User Email", login.Email);
                     ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
                     IDatabase database = connectionMultiplexer.GetDatabase();
                     string Name = database.StringGet("Name");
