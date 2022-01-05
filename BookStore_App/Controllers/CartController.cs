@@ -66,5 +66,54 @@ namespace BookStore_App.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Route("getCartDetails")]
+        public IActionResult RetrieveCartDetails(int userId)
+        {
+            try
+            {
+                var result = this.cartManager.RetrieveCartDetails(userId);
+                //this.logger.LogInformation(reset.Email + "is trying to reset password");
+                if (result != null)
+                {
+                    return this.Ok(new  { Status = true, Message = "Data retrieved successfully", Data=result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Get cart details is unsuccessful" });
+                }
+            }
+            catch (Exception ex)
+            {
+                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+
+        [HttpDelete]
+        [Route("deleteBook")]
+        public IActionResult DeleteCart(int cartId)
+        {
+            try
+            {
+                string result = this.cartManager.DeleteCart(cartId);
+                //this.logger.LogInformation(reset.Email + "is trying to reset password");
+                if (result.Equals("Cart details deleted successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
