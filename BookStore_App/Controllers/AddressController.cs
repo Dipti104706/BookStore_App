@@ -93,5 +93,30 @@ namespace BookStore_App.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+
+        [HttpGet]
+        [Route("getAddressbyUserid")]
+        public IActionResult GetAddressesbyUserid(int userId)
+        {
+            try
+            {
+                var result = this.addressManager.GetAddressesbyUserid(userId);
+                //this.logger.LogInformation(reset.Email + "is trying to reset password");
+                if (result != null)
+                {
+                    return this.Ok(new ResponseModel<object>() { Status = true, Message = "Retrieval all addresses succssful", Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Userid not Exist" });
+                }
+            }
+            catch (Exception ex)
+            {
+                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

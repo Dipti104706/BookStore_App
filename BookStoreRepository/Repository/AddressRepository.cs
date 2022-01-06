@@ -130,7 +130,6 @@ namespace BookStoreRepository.Repository
                         return null;
                     }
                 }
-
             }
             catch (Exception e)
             {
@@ -142,5 +141,51 @@ namespace BookStoreRepository.Repository
             }
         }
 
+        //Get address by userid
+        public List<AddressModel> GetAddressesbyUserid(int userId)
+        {
+            sqlConnection = new SqlConnection(this.Configuration.GetConnectionString("BookStoreDB"));
+            try
+            {
+                using (sqlConnection)
+                {
+                    string storeprocedure = "GetAddressbyUserid";
+                    SqlCommand sqlCommand = new SqlCommand(storeprocedure, sqlConnection);
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    sqlCommand.Parameters.AddWithValue("@UserId", userId);
+                    sqlConnection.Open();
+                    SqlDataReader sqlData = sqlCommand.ExecuteReader();
+                    if (sqlData.HasRows)
+                    {
+                        List<AddressModel> allAddress = new List<AddressModel>();
+                        while (sqlData.Read())
+                        {
+                            AddressModel address = new AddressModel();
+                            address.AddressId = Convert.ToInt32(sqlData["AddressId"]);
+                            address.Address = sqlData["Address"].ToString();
+                            address.City = sqlData["City"].ToString();
+                            address.State = sqlData["State"].ToString();
+                            address.TypeId = Convert.ToInt32(sqlData["TypeId"]);
+                            allAddress.Add(address);
+                        }
+                        return allAddress;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
     }
 }

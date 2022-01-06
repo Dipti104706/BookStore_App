@@ -60,5 +60,17 @@ namespace BookStoreManager.Manager
                 throw new Exception(e.Message);
             }
         }
+
+        public List<AddressModel> GetAddressesbyUserid(int userId)
+        {
+            try
+            {
+                return this.addressRepository.GetAddressesbyUserid(userId);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
