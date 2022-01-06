@@ -1,4 +1,5 @@
 ﻿using BookStoreModel;
+using System.Collections.Generic;
 
 namespace BookStoreManager.Interface
 {
@@ -6,5 +7,6 @@ namespace BookStoreManager.Interface
     {
         string AddAddress(AddressModel address);
         string UpdateAddress(AddressModel address);
+        List<AddressModel> GetAllAddresses();
     }
 }

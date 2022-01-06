@@ -96,5 +96,51 @@ namespace BookStoreRepository.Repository
                 sqlConnection.Close();
             }
         }
+
+        //Get all address
+        public List<AddressModel> GetAllAddresses()
+        {
+            sqlConnection = new SqlConnection(this.Configuration.GetConnectionString("BookStoreDB"));
+            try
+            {
+                using (sqlConnection)
+                {
+                    string storeprocedure = "GetAllAddresses";
+                    SqlCommand sqlCommand = new SqlCommand(storeprocedure, sqlConnection);
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlConnection.Open();
+                    SqlDataReader sqlData = sqlCommand.ExecuteReader();
+                    if (sqlData.HasRows)
+                    {
+                        List<AddressModel> allAddress = new List<AddressModel>();
+                        while (sqlData.Read())
+                        {
+                            AddressModel address = new AddressModel();
+                            address.AddressId = Convert.ToInt32(sqlData["AddressId"]);
+                            address.Address = sqlData["Address"].ToString();
+                            address.City = sqlData["City"].ToString();
+                            address.State = sqlData["State"].ToString();
+                            address.TypeId = Convert.ToInt32(sqlData["TypeId"]);
+                            allAddress.Add(address);
+                        }
+                        return allAddress;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
     }
 }

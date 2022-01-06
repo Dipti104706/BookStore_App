@@ -48,5 +48,17 @@ namespace BookStoreManager.Manager
                 throw new Exception(e.Message);
             }
         }
+
+        public List<AddressModel> GetAllAddresses()
+        {
+            try
+            {
+                return this.addressRepository.GetAllAddresses();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }
