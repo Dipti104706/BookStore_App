@@ -56,5 +56,45 @@ namespace BookStoreRepository.Repository
                 sqlConnection.Close();
             }
         }
+
+        //Update address details api
+        public string UpdateAddress(AddressModel address)
+        {
+            sqlConnection = new SqlConnection(this.Configuration.GetConnectionString("BookStoreDB"));
+            try
+            {
+                using (sqlConnection)
+                {
+                    string storeprocedure = "UpdateAddress";
+                    SqlCommand sqlCommand = new SqlCommand(storeprocedure, sqlConnection);
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    sqlCommand.Parameters.AddWithValue("@AddressId", address.AddressId);
+                    sqlCommand.Parameters.AddWithValue("@Address", address.Address);
+                    sqlCommand.Parameters.AddWithValue("@City", address.City);
+                    sqlCommand.Parameters.AddWithValue("@State", address.State);
+                    sqlCommand.Parameters.AddWithValue("@TypeId", address.TypeId);
+
+                    sqlConnection.Open();
+                    int result = Convert.ToInt32(sqlCommand.ExecuteScalar());
+                    if (result == 1)
+                    {
+                        return "Address not exists";
+                    }
+                    else
+                    {
+                        return "Address updated succssfully";
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
     }
 }

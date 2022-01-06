@@ -36,5 +36,17 @@ namespace BookStoreManager.Manager
                 throw new Exception(e.Message);
             }
         }
+
+        public string UpdateAddress(AddressModel address)
+        {
+            try
+            {
+                return this.addressRepository.UpdateAddress(address);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

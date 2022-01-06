@@ -8,5 +8,6 @@ namespace BookStoreRepository.Interface
         IConfiguration Configuration { get; }
 
         string AddAddress(AddressModel address);
+        string UpdateAddress(AddressModel address);
     }
 }
