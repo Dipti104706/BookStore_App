@@ -4,7 +4,12 @@ using System.Text;
 
 namespace BookStoreModel
 {
-    class FeedbackModel
+    public class FeedbackModel
     {
-    }
+        public int FeedbackId { get; set; }
+		public int UserId { get; set; }
+		public int BookId { get; set; }
+		public string Comments { get; set; }
+		public int Ratings { get; set; }
+	}
 }

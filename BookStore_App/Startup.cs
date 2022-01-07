@@ -44,6 +44,8 @@ namespace BookStore_App
             services.AddTransient<IWishlistManager, WishlistManager>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IOrderManager, OrderManager>();
+            services.AddTransient<IFeedbackRepository, FeedbackRepository>();
+            services.AddTransient<IFeedbackManager, FeedbackManager>();
 
             ////Adding cors
             services.AddCors(options =>
