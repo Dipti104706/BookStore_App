@@ -8,5 +8,6 @@ namespace BookStoreRepository.Interface
         IConfiguration Configuration { get; }
 
         string AddWishlist(WishlistModel wishlist);
+        string DeleteBookFromWishlist(int wishlistId);
     }
 }

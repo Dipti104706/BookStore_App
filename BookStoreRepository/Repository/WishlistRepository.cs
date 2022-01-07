@@ -57,5 +57,33 @@ namespace BookStoreRepository.Repository
                 sqlConnection.Close();
             }
         }
+
+        //Delete wishlist
+        public string DeleteBookFromWishlist(int wishlistId)
+        {
+            sqlConnection = new SqlConnection(this.Configuration.GetConnectionString("BookStoreDB"));
+            try
+            {
+
+                using (sqlConnection)
+                {
+                    string storeprocedure = "spDeleteWishlist";
+                    SqlCommand sqlCommand = new SqlCommand(storeprocedure, sqlConnection);
+                    sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+                    sqlCommand.Parameters.AddWithValue("@WishlistId", wishlistId);
+                    sqlConnection.Open();
+                    sqlCommand.ExecuteNonQuery();
+                    return "Wishlist deleted successfully";
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
     }
 }
