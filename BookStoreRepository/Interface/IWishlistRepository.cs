@@ -1,5 +1,6 @@
 ﻿using BookStoreModel;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace BookStoreRepository.Interface
 {
@@ -9,5 +10,6 @@ namespace BookStoreRepository.Interface
 
         string AddWishlist(WishlistModel wishlist);
         string DeleteBookFromWishlist(int wishlistId);
+        List<WishlistModel> RetrieveWishlist(int userId);
     }
 }
