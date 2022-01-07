@@ -42,5 +42,31 @@ namespace BookStore_App.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Route("getFeedbacks")]
+        public IActionResult RetrieveOrderDetails(int bookId) ////frombody attribute says value read from body of the request
+        {
+            try
+            {
+                var result = this.feedbackManager.RetrieveOrderDetails(bookId);
+                //this.logger.LogInformation("New user added successfully with userid " + userData.UserId + " & firstname:" + userData.FirstName);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Retrival successful", Data=result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Retrival unsuccessful" });
+                }
+            }
+            catch (Exception ex)
+            {
+                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+
     }
 }

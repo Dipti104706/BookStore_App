@@ -11,5 +11,6 @@ namespace BookStoreModel
 		public int BookId { get; set; }
 		public string Comments { get; set; }
 		public int Ratings { get; set; }
+		public RegisterModel User { get; set; }
 	}
 }

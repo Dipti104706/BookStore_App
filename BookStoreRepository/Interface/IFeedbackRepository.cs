@@ -1,5 +1,6 @@
 ﻿using BookStoreModel;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace BookStoreRepository.Interface
 {
@@ -8,5 +9,6 @@ namespace BookStoreRepository.Interface
         IConfiguration Configuration { get; }
 
         string AddFeedback(FeedbackModel feedback);
+        List<FeedbackModel> RetrieveOrderDetails(int bookId);
     }
 }
