@@ -36,5 +36,17 @@ namespace BookStoreManager.Manager
                 throw new Exception(e.Message);
             }
         }
+
+        public List<OrderModel> RetrieveOrderDetails(int userId)
+        {
+            try
+            {
+                return this.orderRepository.RetrieveOrderDetails(userId);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+        }
     }
 }

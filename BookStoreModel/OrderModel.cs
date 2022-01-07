@@ -13,5 +13,6 @@ namespace BookStoreModel
         public int TotalPrice { get; set; }
         public int BookQuantity { get; set; }
         public DateTime OrderDate { get; set; }
+        public BookModel bookModel { get; set; }
     }
 }
