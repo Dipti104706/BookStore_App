@@ -40,6 +40,8 @@ namespace BookStore_App
             services.AddTransient<ICartManager, CartManager>();
             services.AddTransient<IAddressRepository, AddressRepository>();
             services.AddTransient<IAddressManager, AddressManager>();
+            services.AddTransient<IWishlistRepository, WishlistRepository>();
+            services.AddTransient<IWishlistManager, WishlistManager>();
             ////Adding cors
             services.AddCors(options =>
                 options.AddPolicy(
