@@ -87,8 +87,8 @@ namespace BookStoreRepository.Repository
                             bookModel.DiscountPrice = Convert.ToInt32(sqlData["DiscountPrice"]);
                             bookModel.OriginalPrice = Convert.ToInt32(sqlData["OriginalPrice"]);
                             bookModel.Image = sqlData["Image"].ToString();
-                            orderModel.OrderId = Convert.ToInt32(sqlData["OrderId"]);
-                            orderModel.OrderDate = Convert.ToDateTime(sqlData["OrderDate"]);
+                            orderModel.OrderId = Convert.ToInt32(sqlData["OrdersId"]);
+                            orderModel.OrderDate =sqlData["OrderDate"].ToString();
                             orderModel.bookModel = bookModel;
                             order.Add(orderModel);
                         }
