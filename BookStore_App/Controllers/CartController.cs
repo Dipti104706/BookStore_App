@@ -19,6 +19,7 @@ namespace BookStore_App.Controllers
             this.cartManager = cartManager;
         }
 
+        //Api for Adding books to carts
         [HttpPost]
         [Route("addToCarts")]
         public IActionResult AddToCart([FromBody] CartModel cart) ////frombody attribute says value read from body of the request
@@ -26,7 +27,6 @@ namespace BookStore_App.Controllers
             try
             {
                 string result = this.cartManager.AddToCart(cart);
-                //this.logger.LogInformation("New user added successfully with userid " + userData.UserId + " & firstname:" + userData.FirstName);
                 if (result.Equals("Book Added succssfully to Cart"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -38,11 +38,11 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
 
+        //Api for Update book quantity in the cart
         [HttpPut]
         [Route("updateBookQuantity")]
         public IActionResult UpdateCartQuantity(int cartId, int quantity)
@@ -50,7 +50,6 @@ namespace BookStore_App.Controllers
             try
             {
                 string result = this.cartManager.UpdateCartQuantity(cartId, quantity);
-                //this.logger.LogInformation(reset.Email + "is trying to reset password");
                 if (result.Equals("Quantity Updated Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -62,11 +61,11 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
 
+        //Api for getting cart details by userid
         [HttpGet]
         [Route("getCartDetails")]
         public IActionResult RetrieveCartDetails(int userId)
@@ -74,7 +73,6 @@ namespace BookStore_App.Controllers
             try
             {
                 var result = this.cartManager.RetrieveCartDetails(userId);
-                //this.logger.LogInformation(reset.Email + "is trying to reset password");
                 if (result != null)
                 {
                     return this.Ok(new  { Status = true, Message = "Data retrieved successfully", Data=result });
@@ -86,7 +84,6 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -99,7 +96,6 @@ namespace BookStore_App.Controllers
             try
             {
                 string result = this.cartManager.DeleteCart(cartId);
-                //this.logger.LogInformation(reset.Email + "is trying to reset password");
                 if (result.Equals("Cart details deleted successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -111,7 +107,6 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }

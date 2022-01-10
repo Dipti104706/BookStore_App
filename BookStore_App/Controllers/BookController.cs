@@ -19,6 +19,7 @@ namespace BookStore_App.Controllers
             this.bookManager = bookManager;
         }
 
+        //Api for adding new book details
         [HttpPost]
         [Route("addBooks")]
         public IActionResult AddBook([FromBody] BookModel book) ////frombody attribute says value read from body of the request
@@ -43,6 +44,7 @@ namespace BookStore_App.Controllers
             }
         }
 
+        //Update book details
         [HttpPut]
         [Route("updateBook")]
         public IActionResult UpdateBookDetails([FromBody] BookModel update)
@@ -67,6 +69,7 @@ namespace BookStore_App.Controllers
             }
         }
 
+        //Get all book details by book id
         [HttpGet]
         [Route("getBookDetails")]
         public IActionResult RetrieveBookDetails(int bookId)

@@ -19,6 +19,7 @@ namespace BookStore_App.Controllers
             this.feedbackManager = feedbackManager;
         }
 
+        //Api for adding feedbacks
         [HttpPost]
         [Route("addFeedbacks")]
         public IActionResult AddFeedback([FromBody] FeedbackModel feedback) ////frombody attribute says value read from body of the request
@@ -26,7 +27,6 @@ namespace BookStore_App.Controllers
             try
             {
                 string result = this.feedbackManager.AddFeedback(feedback);
-                //this.logger.LogInformation("New user added successfully with userid " + userData.UserId + " & firstname:" + userData.FirstName);
                 if (result.Equals("Feedback added successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -38,11 +38,11 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
 
+        //Api for get all feedback by bookid
         [HttpGet]
         [Route("getFeedbacks")]
         public IActionResult RetrieveOrderDetails(int bookId) ////frombody attribute says value read from body of the request
@@ -50,7 +50,6 @@ namespace BookStore_App.Controllers
             try
             {
                 var result = this.feedbackManager.RetrieveOrderDetails(bookId);
-                //this.logger.LogInformation("New user added successfully with userid " + userData.UserId + " & firstname:" + userData.FirstName);
                 if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = "Retrival successful", Data=result });
@@ -62,7 +61,6 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }

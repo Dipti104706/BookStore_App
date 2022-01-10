@@ -19,7 +19,8 @@ namespace BookStore_App.Controllers
             this.wishlistManager = wishlistManager;
             //this.logger = logger;
         }
-
+        
+        //Api for adding wishlist
         [HttpPost]
         [Route("addToWishlist")]
         public IActionResult AddWishlist([FromBody] WishlistModel wishlist) ////frombody attribute says value read from body of the request
@@ -27,7 +28,6 @@ namespace BookStore_App.Controllers
             try
             {
                 string result = this.wishlistManager.AddWishlist(wishlist);
-                //this.logger.LogInformation("New user added successfully with userid " + userData.UserId + " & firstname:" + userData.FirstName);
                 if (result.Equals("Book Wishlisted successfully"))
                 {
 
@@ -40,7 +40,6 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -53,7 +52,6 @@ namespace BookStore_App.Controllers
             try
             {
                 string result = this.wishlistManager.DeleteBookFromWishlist(wishlistId);
-                //this.logger.LogInformation("New user added successfully with userid " + userData.UserId + " & firstname:" + userData.FirstName);
                 if (result.Equals("Wishlist deleted successfully"))
                 {
 
@@ -66,11 +64,11 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
 
+        //Api for get wishlist details
         [HttpGet]
         [Route("getWishlistDetails")]
         public IActionResult RetrieveWishlist(int userId) ////frombody attribute says value read from body of the request
@@ -78,7 +76,6 @@ namespace BookStore_App.Controllers
             try
             {
                 var result = this.wishlistManager.RetrieveWishlist(userId);
-                //this.logger.LogInformation("New user added successfully with userid " + userData.UserId + " & firstname:" + userData.FirstName);
                 if (result != null)
                 {
 
@@ -91,7 +88,6 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }

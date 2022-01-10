@@ -2,6 +2,7 @@
 using BookStoreModel;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,12 @@ namespace BookStore_App.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserManager manager;
+        private readonly ILogger<UserController> logger;
 
-        public UserController(IUserManager manager)
+        public UserController(IUserManager manager, ILogger<UserController> logger)
         {
             this.manager = manager;
-            //this.logger = logger;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -34,7 +36,7 @@ namespace BookStore_App.Controllers
             try
             {
                 string result = this.manager.Register(userData);
-                //this.logger.LogInformation("New user added successfully with userid " + userData.UserId + " & firstname:" + userData.FirstName);
+                this.logger.LogInformation("New user added successfully with userid " + userData.UserId + " & Name:" + userData.Name);
                 if (result.Equals("Registration Successful"))
                 {
                    
@@ -47,11 +49,12 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
+                this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
 
+        //Api for log in
         [HttpPost]
         [Route("Login")]
         public IActionResult LogIn([FromBody] LoginModel login)
@@ -59,7 +62,7 @@ namespace BookStore_App.Controllers
             try
             {
                 var result = this.manager.Login(login);
-                //this.logger.LogInformation(login.Email + "Trying to log in");
+                this.logger.LogInformation(login.Email + "Trying to log in");
                 if (result.Equals("Login Successful"))
                 {
                     ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
@@ -84,11 +87,12 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
+                this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
 
+        //Api for resetting password
         [HttpPut]
         [Route("reset")]
         public IActionResult ResetPassword([FromBody] ResetPasswordModel reset)
@@ -96,7 +100,7 @@ namespace BookStore_App.Controllers
             try
             {
                 string result = this.manager.ResetPassword(reset);
-                //this.logger.LogInformation(reset.Email + "is trying to reset password");
+                this.logger.LogInformation(reset.Email + "is trying to reset password");
                 if (result.Equals("Password Updated Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -108,11 +112,12 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
+                this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
 
+        //Api for forgot password
         [HttpPost]
         [Route("forgot")]
         public IActionResult ForgotPassword(string email)
@@ -120,7 +125,7 @@ namespace BookStore_App.Controllers
             try
             {
                 string result = this.manager.ForgotPassword(email);
-                //this.logger.LogInformation(email + "trying to access forgot password");
+                this.logger.LogInformation(email + "trying to access forgot password");
                 if (result.Equals("Email sent to user"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -132,7 +137,7 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
+                this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }

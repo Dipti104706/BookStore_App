@@ -19,6 +19,7 @@ namespace BookStore_App.Controllers
             this.addressManager = addressManager;
         }
 
+        //Api for adding address details
         [HttpPost]
         [Route("addAddress")]
 
@@ -27,7 +28,6 @@ namespace BookStore_App.Controllers
             try
             {
                 string result = this.addressManager.AddAddress(address);
-                //this.logger.LogInformation("New user added successfully with userid " + userData.UserId + " & firstname:" + userData.FirstName);
                 if (result.Equals("Address Added succssfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -39,12 +39,11 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
 
-        //update address api
+        //Update address api
         [HttpPut]
         [Route("updateAddress")]
 
@@ -53,7 +52,6 @@ namespace BookStore_App.Controllers
             try
             {
                 string result = this.addressManager.UpdateAddress(address);
-                //this.logger.LogInformation("New user added successfully with userid " + userData.UserId + " & firstname:" + userData.FirstName);
                 if (result.Equals("Address updated succssfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
@@ -65,11 +63,11 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
-                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
 
+        //Getting all addresses
         [HttpGet]
         [Route("getAllAddress")]
         public IActionResult GetAllAddresses()
@@ -77,8 +75,7 @@ namespace BookStore_App.Controllers
             try
             {
                 var result = this.addressManager.GetAllAddresses();
-                //this.logger.LogInformation(reset.Email + "is trying to reset password");
-                if (result != null)
+                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<object>() { Status = true, Message = "Retrieval all addresses succssful", Data = result });
                 }
@@ -89,12 +86,11 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
 
-
+        //Getting address by userid api
         [HttpGet]
         [Route("getAddressbyUserid")]
         public IActionResult GetAddressesbyUserid(int userId)
@@ -102,7 +98,6 @@ namespace BookStore_App.Controllers
             try
             {
                 var result = this.addressManager.GetAddressesbyUserid(userId);
-                //this.logger.LogInformation(reset.Email + "is trying to reset password");
                 if (result != null)
                 {
                     return this.Ok(new ResponseModel<object>() { Status = true, Message = "Retrieval all addresses succssful", Data = result });
@@ -114,7 +109,6 @@ namespace BookStore_App.Controllers
             }
             catch (Exception ex)
             {
-                //this.logger.LogWarning("Exception caught while adding new user" + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
