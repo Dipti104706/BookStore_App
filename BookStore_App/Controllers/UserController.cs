@@ -36,7 +36,7 @@ namespace BookStore_App.Controllers
             try
             {
                 string result = this.manager.Register(userData);
-                this.logger.LogInformation("New user added successfully with userid " + userData.UserId + " & Name:" + userData.Name);
+                this.logger.LogInformation("New user added successfully with name" + " & Name:" + userData.Name);
                 if (result.Equals("Registration Successful"))
                 {
                    
